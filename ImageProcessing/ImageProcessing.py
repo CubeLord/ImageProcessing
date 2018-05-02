@@ -157,24 +157,14 @@ def TestLinkSprites():
     #cv2.imwrite("OverworldCroped.png", newMap)
 
     #GetlinkColors -> Matrix and colorcodes extracted
-
     LinkTiles = IP.createFinalTiles(dict)
     IP.draw("LinkTiles", IP.enlarge(LinkTiles, 5))
     cv2.imwrite("LinkColors.png", IP.enlarge(colorImg, 5))
     IP.FillMatrixColor(Tilecolors, LinkTiles)
 
 
-TestTiles()
-#TestLinkSprites()
-
-
-
-
-
-
-
-
-
+#TestTiles()
+TestLinkSprites()
 
 
 #TODO: MAKE A MATRIX FOR THE ORIGINAL MAP TILES, A MATRIX FOR THE COLORS, AND EXTRACT THE COLORS IN SOME WAY
