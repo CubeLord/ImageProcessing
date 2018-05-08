@@ -270,10 +270,13 @@ def simplifyMap():
             elif map[i][j]%18 > 5:
                 map[i][j] -= 6
 
-    for i in range(76, 88):
+  
+    for i in range(77, 88):
             for j in range(0, 16):
                 temp = "        " + str(offset) + " => x\"%0.8X\"," % map[i][j]    
-                temp += " -- z: 0 rot: 0 ptr: " + str(255+map[i][j]*72) + "\n"
+                temp += " -- z: 0 rot: 0 ptr: " 
+                x = map[i][j]
+                temp += str(255+((x//18)*6 + x%18)*72) + "\n"
                 file.write(temp)
                 offset += 1
             
