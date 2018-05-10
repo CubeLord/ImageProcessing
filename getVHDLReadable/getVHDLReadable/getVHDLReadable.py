@@ -311,7 +311,11 @@ def simplifyMap():
                         if(i>overw_y-1 and i<overw_y+map_height and j>overw_x-1 and j<overw_x+map_width):
                             x = map[i][j]
                             spriteHDLoffset = 255+((x//18)*6+x%18)*64
-                            file2.write("{ 0, 0, 0x%0.8X, 0 }, // x = " % spriteHDLoffset + str((j)%map_width) + ", y = " + str(i%map_height) + "\n")
+                            file2.write("{ 0, 0, 0x%0.8X, 0 }" % spriteHDLoffset)
+                            if (i == overw_y+map_height - 1 and j == overw_x+map_width-1):
+                                file2.write(" // x = "  + str((j)%map_width) + ", y = " + str(i%map_height) + "\n")
+                            else:
+                                file2.write(", // x = " + str((j)%map_width) + ", y = " + str(i%map_height) + "\n")
                          # this part is only for ram.vhdl   
                             temp = "        " + str(offset) + " => x\"%0.8X\"," % x
                             temp += " -- z: 0 rot: 0 ptr: " 
