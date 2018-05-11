@@ -181,7 +181,27 @@ def TestLinkSprites():
     LinkTiles = IP.createFinalTiles(dict)
     IP.draw("LinkTiles", IP.enlarge(LinkTiles, 5))
     cv2.imwrite("LinkColors.png", IP.enlarge(colorImg, 5))
-    IP.FillMatrixColor(Tilecolors, LinkTiles)
+    matrix = IP.FillMatrixColor(Tilecolors, LinkTiles)
+
+#fixing matrix to be as needed, each row is one sprite
+    Smatrix = []
+    for i in range(162):
+        Smatrix.append([])
+
+    for i in range(16*2):
+        for j in range(len(matrix[0])):
+            Smatrix[j//16 + 18*(i//16)].append(matrix[i][j])
+    
+    print("\nCORRECTED MATRIX\n")
+    for i in range(len(Smatrix)):
+        print(Smatrix[i])
+
+    genSprite = np.zeros((16,16,3), np.uint8)
+    for x in range(len(Smatrix)):  
+       for i in range(16):
+            for j in range(16):
+                genSprite[i][j] = Tilecolors[Smatrix[x][i*16 + j]]
+       IP.draw("genSprite",IP.enlarge(genSprite, 10))
 
 def TestItemSprites():
     items = cv2.imread("NES - The Legend of Zelda - TreasuresNEW.png")
@@ -206,8 +226,8 @@ def countDict(dict, l):
         br += dict[i]
     return br
 
-TestTiles()
-#TestLinkSprites()
+#TestTiles()
+TestLinkSprites()
 #TestItemSprites()
 
 #TODO: MAKE A MATRIX FOR THE ORIGINAL MAP TILES, A MATRIX FOR THE COLORS, AND EXTRACT THE COLORS IN SOME WAY
