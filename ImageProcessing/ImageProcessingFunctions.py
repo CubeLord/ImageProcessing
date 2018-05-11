@@ -270,7 +270,7 @@ def FillMatrix(dict, mapImage):
     printMatrix(matrix, mapImage.shape[0]//16)
     return
 
-
+#Checks each extracted pixel if it's value is in the dictionary, doesn't add them
 def FillMatrixColor(dict, img):
     matrix = []
     for i in range(img.shape[0]):
@@ -289,7 +289,7 @@ def FillMatrixColor(dict, img):
         print(matrix[i])
     #pprint.pprint(matrix)
     printMatrix(matrix, img.shape[0])
-    return
+    return matrix
 
 #Extracts sprite from image given in first parameter, placement of the sprite are in second and third
 def extractSprite(map, startHight, startWidth):
@@ -304,5 +304,3 @@ def extractSprite(map, startHight, startWidth):
 
     return tsprite
 
-
-    
