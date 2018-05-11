@@ -284,9 +284,28 @@ def simplifyMap():
     for i in range(len(map)):
         for j in range(len(map[i])):
             if map[i][j]%18 > 11:
-                map[i][j] -= 12 
+                if map[i][j]//18 == 2 and map[i][j]%18 == 16:   #   white eye
+                    map[i][j] = 144
+                else:
+                    map[i][j] -= 12 
             elif map[i][j]%18 > 5:
-                map[i][j] -= 6
+                if map[i][j]//18 == 8:
+                    if map[i][j]%18 in [2,3,5]:    #   trees - from the bottom row
+                        map[i][j] = 19
+                    elif map[i][j]%18 == 6:    #   white eyes - from the bottom row
+                        map[i][j] = 28
+                    elif  map[i][j]%18 == 9:    #   green eye - from the bottom row
+                        map[i][j] = 144
+                    elif map[i][j]%18 == 4:    #   white left sphere - from the bottom row
+                        map[i][j] = 26
+                    elif map[i][j]%18 == 7:    #   white doors left - from the bottom row
+                        map[i][j] = 39
+                    elif map[i][j]%18 == 8:    #   white doors right - from the bottom row
+                        map[i][j] = 41
+                    else:
+                        map[i][j] -= 6
+                else:
+                    map[i][j] -= 6
 
     file2 = open("overworld.txt", "w")
 	
