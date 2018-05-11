@@ -170,11 +170,15 @@ def sprites():
     # the goal is to get values in this format:   ---  255 => x"01020202" --- where   01 02 02 02    <- each block is an index for one color - we want to store them in sets of 4
     #                                                                                 i0 i1 i2 i3  
     m = 0
-    for i in range(len(sprites)//3-1):  #   don't load the last row yet
+    for i in range(len(sprites)//3-3):  #   the last row isn't full
         file.write("\n                --  sprite " + str(i) + "\n")
         temp = "        " + str(offset) + " => x\""
-        for j in range(len(sprites[m])):
-            temp += "0" + str(sprites[m][j])
+        if i < len(sprites)//3-2:
+            s = sprites[m] 
+        else:
+            s = sprites[30]     #   add the grave to the end of the list
+        for j in range(len(s)):
+            temp += "0" + str(s[j])
             if not (j+1)%4:
                 temp += "\",\n"
                 file.write(temp)
@@ -184,10 +188,7 @@ def sprites():
         if (m%18) == 5:
             m += 12
         m += 1        
-
-    for i in range(len(sprites[m][j])):
-        
-
+     
     file.close()
 
 def simplifyMap():
@@ -296,15 +297,15 @@ def simplifyMap():
                     if map[i][j]%18 in [2,3,5]:    #   trees - from the bottom row
                         map[i][j] = 19
                     elif map[i][j]%18 == 6:    #   white eyes - from the bottom row
-                        map[i][j] = 28
+                        map[i][j] = 40
                     elif  map[i][j]%18 == 9:    #   green eye - from the bottom row
                         map[i][j] = 144
                     elif map[i][j]%18 == 4:    #   white left sphere - from the bottom row
-                        map[i][j] = 26
-                    elif map[i][j]%18 == 7:    #   white doors left - from the bottom row
                         map[i][j] = 39
+                    elif map[i][j]%18 == 7:    #   white doors left - from the bottom row
+                        map[i][j] = 57
                     elif map[i][j]%18 == 8:    #   white doors right - from the bottom row
-                        map[i][j] = 41
+                        map[i][j] = 59
                     else:
                         map[i][j] -= 6
                 else:
