@@ -276,35 +276,77 @@ def simplifyMap():
     [55, 55, 55, 38, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 36, 55, 55, 147, 147, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 147, 147, 61, 44, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 42, 61, 61, 44, 8, 8, 8, 97, 97, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 61, 61, 61, 61, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 61, 61, 61, 61, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 36, 38, 8, 8, 8, 8, 8, 8, 36, 55, 55, 55, 55, 55, 55, 55, 38, 36, 38, 8, 8, 36, 55, 55, 55, 55, 55, 55, 55, 55, 55, 55, 55, 55, 38, 90, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91],
     [55, 55, 55, 55, 37, 37, 37, 37, 37, 37, 37, 37, 37, 37, 37, 37, 37, 37, 37, 37, 37, 37, 37, 37, 37, 37, 37, 37, 37, 55, 55, 55, 147, 147, 147, 147, 147, 147, 147, 147, 147, 147, 147, 147, 147, 147, 147, 147, 147, 147, 147, 147, 147, 147, 147, 147, 147, 147, 147, 147, 147, 147, 147, 147, 61, 61, 43, 43, 43, 43, 43, 43, 43, 43, 43, 43, 43, 43, 61, 61, 61, 61, 43, 43, 44, 97, 97, 42, 43, 43, 43, 43, 43, 43, 43, 43, 43, 43, 43, 43, 43, 43, 43, 43, 43, 43, 43, 43, 43, 43, 61, 61, 61, 61, 43, 43, 43, 43, 43, 43, 43, 43, 43, 43, 43, 43, 61, 61, 61, 61, 149, 149, 149, 149, 149, 149, 149, 149, 149, 149, 149, 149, 149, 149, 36, 37, 37, 37, 55, 55, 38, 36, 37, 37, 37, 37, 55, 55, 55, 55, 55, 55, 55, 55, 55, 55, 55, 38, 36, 55, 55, 55, 55, 55, 55, 55, 55, 55, 55, 55, 55, 55, 55, 90, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91],
     [55, 55, 55, 55, 55, 55, 55, 55, 55, 55, 55, 55, 55, 55, 55, 55, 55, 55, 55, 55, 55, 55, 55, 55, 55, 55, 55, 55, 55, 55, 55, 55, 147, 147, 147, 147, 147, 147, 147, 147, 147, 147, 147, 147, 147, 147, 147, 147, 147, 147, 147, 147, 147, 147, 147, 147, 147, 147, 147, 147, 147, 147, 147, 147, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 97, 97, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 149, 149, 149, 149, 149, 149, 149, 149, 149, 149, 149, 149, 149, 149, 55, 55, 55, 55, 55, 55, 55, 55, 55, 55, 55, 55, 55, 55, 55, 55, 55, 55, 55, 55, 55, 55, 55, 55, 55, 55, 55, 55, 55, 55, 55, 55, 55, 55, 55, 55, 55, 55, 55, 90, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91]]
+
     offset = 6900
-    file1 = open("simpleMap.txt", "w")
+    file1 = open("screen_in_VHDL.txt", "w")
     file1.write("\n                --  MAP\n")
 
     for i in range(len(map)):
         for j in range(len(map[i])):
             if map[i][j]%18 > 11:
-                map[i][j] -= 12 
-            elif map[i][j]%18 > 5:
-                map[i][j] -= 6
-
-    file2 = open("screenAt_7_0.txt", "w")
-	  
-    for i in range(65, 95):
-            for j in range(0, 40):
-                if(i>76 and i<88 and j>11 and j<28):
-                    x = map[i][j-12]
-                    spriteHDLoffset = 255+((x//18)*6+x%18)*64
-                    file2.write("{ 0, 0, 0x%0.8X, 0 }, // x = " % spriteHDLoffset + str((j-12)%16) + ", y = " + str(i%11) + "\n")
-                    temp = "        " + str(offset) + " => x\"%0.8X\"," % x
-                    temp += " -- z: 0 rot: 0 ptr: " 
-                    temp += str(spriteHDLoffset) + "\n"
-                elif (i>71 and i<77 and j>11 and j<28):
-                     temp = "        " + str(offset) + " => x\"00000016\", -- header \n"
+                if map[i][j]//18 == 2 and map[i][j]%18 == 16:   #   white eye
+                    map[i][j] = 144
                 else:
-                    temp = "        " + str(offset) + " => x\"00000016\", -- pedding \n"
+                    map[i][j] -= 12 
+            elif map[i][j]%18 > 5:
+                if map[i][j]//18 == 8:
+                    if map[i][j]%18 in [2,3,5]:    #   trees - from the bottom row
+                        map[i][j] = 19
+                    elif map[i][j]%18 == 6:    #   white eyes - from the bottom row
+                        map[i][j] = 28
+                    elif  map[i][j]%18 == 9:    #   green eye - from the bottom row
+                        map[i][j] = 144
+                    elif map[i][j]%18 == 4:    #   white left sphere - from the bottom row
+                        map[i][j] = 26
+                    elif map[i][j]%18 == 7:    #   white doors left - from the bottom row
+                        map[i][j] = 39
+                    elif map[i][j]%18 == 8:    #   white doors right - from the bottom row
+                        map[i][j] = 41
+                    else:
+                        map[i][j] -= 6
+                else:
+                    map[i][j] -= 6
 
-                file1.write(temp)
-                offset += 1
+    file2 = open("overworld.txt", "w")
+	
+    horizontal_pad = 12
+    vertical_pad = 7
+    header_height = 5
+
+    map_height = 11
+    map_width = 16
+    overw_height = 88
+    overw_width = 256
+
+    for overw_y in range(0, overw_height, map_height):
+        i_start = overw_y - vertical_pad
+        i_end = overw_y + map_height + vertical_pad
+        for overw_x in range(0, overw_width, map_width):
+            j_start = overw_x - horizontal_pad
+            j_end = overw_x + map_width + horizontal_pad
+            file2.write("\n//     map(" + str(overw_x//16) + ", " + str(overw_y//11) + ")\n")
+            file2.write("{")
+            for i in range(i_start, i_end):
+                    for j in range(j_start, j_end):
+                        if(i>overw_y-1 and i<overw_y+map_height and j>overw_x-1 and j<overw_x+map_width):
+                            x = map[i][j]
+                            spriteHDLoffset = 255+((x//18)*6+x%18)*64
+                            file2.write("0x%0.4X" % spriteHDLoffset)
+                            if (i != overw_y + map_height - 1 or j != overw_x + map_width - 1):
+                                file2.write(",")      
+                            file2.write(" // x = "  + str((j)%map_width) + ", y = " + str(i%map_height) + "\n")
+                         # this part is only for ram.vhdl   
+                            temp = "        " + str(offset) + " => x\"%0.8X\"," % x
+                            temp += " -- z: 0 rot: 0 ptr: " 
+                            temp += str(spriteHDLoffset) + "\n"
+                        elif (i>overw_y-header_height and i<overw_y and j>overw_x-1 and j<overw_x+map_width):
+                             temp = "        " + str(offset) + " => x\"00000016\", -- header \n"
+                        else:
+                            temp = "        " + str(offset) + " => x\"00000016\", -- pedding \n"
+
+                        #file1.write(temp)
+                        offset += 1
+            file2.write("},\n")
             
     file2.close()
     file1.close()
