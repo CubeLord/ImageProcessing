@@ -170,7 +170,7 @@ def sprites():
     # the goal is to get values in this format:   ---  255 => x"01020202" --- where   01 02 02 02    <- each block is an index for one color - we want to store them in sets of 4
     #                                                                                 i0 i1 i2 i3  
     m = 0
-    for i in range(len(sprites)//3):
+    for i in range(len(sprites)//3-1):  #   don't load the last row yet
         file.write("\n                --  sprite " + str(i) + "\n")
         temp = "        " + str(offset) + " => x\""
         for j in range(len(sprites[m])):
@@ -184,6 +184,9 @@ def sprites():
         if (m%18) == 5:
             m += 12
         m += 1        
+
+    for i in range(len(sprites[m][j])):
+        
 
     file.close()
 
