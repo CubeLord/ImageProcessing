@@ -34,7 +34,7 @@ def overworld_sprites_to_VHDL():
         if i < 50:     #   len(sprites)//3-2 -> all before last
             s = sprites[m] 
         else:
-            s = sprites[30]     #   add the grave to the end of the list
+            s = sprites[31]     #   add the grave to the end of the list
         for j in range(len(s)):
             temp += "0" + str(s[j])
             if not (j+1)%4:
@@ -147,29 +147,31 @@ def simplifyMap():
         for j in range(len(map[i])):
             if map[i][j]%18 > 11:
                 if map[i][j]//18 == 2 and map[i][j]%18 == 16:   #   white eye
-                    map[i][j] = 48
+                    map[i][j] = 144
                 elif map[i][j]//18 == 1 and map[i][j]%18 == 13: #   grave
-                    map[i][j] = 50
+                    map[i][j] = 146
                 else:
                     map[i][j] -= 12 
             elif map[i][j]%18 > 5:
                 if map[i][j]//18 == 8:
-                    if map[i][j]%18 in [2,3,5]:    #   trees - from the bottom row
-                        map[i][j] = 7
-                    elif map[i][j]%18 == 6:    #   white eyes - from the bottom row
-                        map[i][j] = 16
+                    if map[i][j]%18 == 6:    #   white eyes - from the bottom row
+                        map[i][j] = 40
                     elif  map[i][j]%18 == 9:    #   green eye - from the bottom row
-                        map[i][j] = 48
-                    elif map[i][j]%18 == 4:    #   white left sphere - from the bottom row
-                        map[i][j] = 15
+                        map[i][j] = 144
                     elif map[i][j]%18 == 7:    #   white doors left - from the bottom row
-                        map[i][j] = 21
+                        map[i][j] = 57
                     elif map[i][j]%18 == 8:    #   white doors right - from the bottom row
-                        map[i][j] = 23
+                        map[i][j] = 59
                     else:
                         map[i][j] -= 6
                 else:
                     map[i][j] -= 6
+            elif map[i][j]//18 == 8:
+                if map[i][j]%18 in [2,3,5]:    #   trees - from the bottom row
+                    map[i][j] = 19
+                elif map[i][j]%18 == 4:    #   white left sphere - from the bottom row
+                    map[i][j] = 39
+                
 
     file2 = open("overworld.txt", "w")
 	
@@ -194,6 +196,8 @@ def simplifyMap():
                     for j in range(j_start, j_end):
                         if(i>overw_y-1 and i<overw_y+map_height and j>overw_x-1 and j<overw_x+map_width):
                             x = map[i][j]
+                            if x > 146:
+                                print("map["+str(i)+"]["+str(j)+"]="+str(x))
                             spriteHDLoffset = 255+((x//18)*6+x%18)*64
                             file2.write("0x%0.4X" % spriteHDLoffset)
                             if (i != overw_y + map_height - 1 or j != overw_x + map_width - 1):
