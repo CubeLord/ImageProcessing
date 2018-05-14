@@ -1,6 +1,6 @@
 def character_sprites_to_VHDL(sprites, file_name, offset, palette_offset):
     # indexed-colored sprites - each sub-list is one sprite // from FinalTilesColors Matrix.txt
-    # offset = the palette offset in ram.vhdl
+    # offset = sprites offset in ram.vhdl
     # the goal is to get values in this format:   ---  255 => x"01020202" --- where   01 02 02 02    <- each block is an index for one color - we want to store them in sets of 4
 
     file = open(file_name, "w")
@@ -22,16 +22,16 @@ def character_sprites_to_VHDL(sprites, file_name, offset, palette_offset):
 
 def overworld_sprites_to_VHDL():
     # indexed-colored sprites - each sub-list is one sprite // from FinalTilesColors Matrix.txt
-    # offset = the palette offset in ram.vhdl
+    # offset = sprites offset in ram.vhdl
     # the goal is to get values in this format:   ---  255 => x"01020202" --- where   01 02 02 02    <- each block is an index for one color - we want to store them in sets of 4
     
     offset = 255
     file = open("vhdlReadable.txt", "w")
     m = 0
-    for i in range(len(sprites)//3-3):  #   the last row isn't full
+    for i in range(51):  #   len(sprites)//3-3 -> the last row isn't full
         file.write("\n                --  sprite " + str(i) + "\n")
         temp = "        " + str(offset) + " => x\""
-        if i < len(sprites)//3-2:
+        if i < 50:     #   len(sprites)//3-2 -> all before last
             s = sprites[m] 
         else:
             s = sprites[30]     #   add the grave to the end of the list
@@ -147,25 +147,25 @@ def simplifyMap():
         for j in range(len(map[i])):
             if map[i][j]%18 > 11:
                 if map[i][j]//18 == 2 and map[i][j]%18 == 16:   #   white eye
-                    map[i][j] = 144
-                elif map[i][j]//18 == 1 and map[i][j]%18 == 13:
-                    map[i][j] = 146
+                    map[i][j] = 48
+                elif map[i][j]//18 == 1 and map[i][j]%18 == 13: #   grave
+                    map[i][j] = 50
                 else:
                     map[i][j] -= 12 
             elif map[i][j]%18 > 5:
                 if map[i][j]//18 == 8:
                     if map[i][j]%18 in [2,3,5]:    #   trees - from the bottom row
-                        map[i][j] = 19
+                        map[i][j] = 7
                     elif map[i][j]%18 == 6:    #   white eyes - from the bottom row
-                        map[i][j] = 40
+                        map[i][j] = 16
                     elif  map[i][j]%18 == 9:    #   green eye - from the bottom row
-                        map[i][j] = 144
+                        map[i][j] = 48
                     elif map[i][j]%18 == 4:    #   white left sphere - from the bottom row
-                        map[i][j] = 39
+                        map[i][j] = 15
                     elif map[i][j]%18 == 7:    #   white doors left - from the bottom row
-                        map[i][j] = 57
+                        map[i][j] = 21
                     elif map[i][j]%18 == 8:    #   white doors right - from the bottom row
-                        map[i][j] = 59
+                        map[i][j] = 23
                     else:
                         map[i][j] -= 6
                 else:
