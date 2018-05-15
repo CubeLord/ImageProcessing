@@ -214,7 +214,7 @@ def TestItemSprites():
     #p = countDict(dict, 8)
     #sprite = items[0:16, 0+p:14+p]
     #IP.draw("sprite", IP.enlarge(sprite, 10))
-    for i in range(len(dict)):
+    for i in range(16*2):
         spritesDict[i] = items[0:16, countDict(dict, i):dict[i]]
     #IP.drawDict(spritesDict)
     

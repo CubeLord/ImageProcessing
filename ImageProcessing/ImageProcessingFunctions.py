@@ -84,6 +84,8 @@ def defLinkSprites(dict, img, Tilecolors):
         x = 0
         y = y+1
         s = 0
+
+    print(len(dict))
     return dict, Tilecolors
 
 #Saves sprites from the input image into seperate images inside the dictionary - designed to work with the image given, may be changed for different images (ImageTiles)
@@ -116,6 +118,29 @@ def filterDict(dict):
         if (i <20 or i==136):
             ndict[br] = dict[i]
             br +=1
+
+    #flipping sprites for left and up walking
+    ndict[br]= np.zeros((16, 16, 3), np.uint8)
+    br+=1
+    ndict[br]= np.zeros((16, 16, 3), np.uint8)
+    br+=1
+    ndict[br]= np.zeros((16, 16, 3), np.uint8)
+    ndict[br+1]= np.zeros((16, 16, 3), np.uint8)
+    ndict[br+2]= np.zeros((16, 16, 3), np.uint8)
+    ndict[br+3]= np.zeros((16, 16, 3), np.uint8)
+    
+    #print(len(ndict))
+    for i in range(16):
+        for j in range(16):
+            ndict[br-2][i,j] = ndict[2][i,15-j]
+            ndict[br-1][i,j] = ndict[3][i,15-j]
+            ndict[br][i,j] = ndict[4][i,15-j]
+            ndict[br+1][i,j] = ndict[7][i,15-j]
+            ndict[br+2][i,j] = ndict[8][i,15-j]
+            ndict[br+3][i,j] = ndict[11][i,15-j]            
+    #print("Drawing filtered dict")
+    #drawDict(ndict)
+    #print("Drawing done for filtered dictionary")
     return ndict
 
 #checks if the color is present, if not adds it to the list
