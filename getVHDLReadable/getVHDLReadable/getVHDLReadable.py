@@ -9,7 +9,10 @@ def character_sprites_to_VHDL(sprites, file_name, offset, palette_offset):
         temp = "        " + str(offset) + " => x\""
         s = sprites[i] 
         for j in range(len(s)):
-            temp += "%0.2X" % (palette_offset + s[j])
+            if s[j]:
+                temp += "%0.2X" % (palette_offset + s[j])
+            else:
+                temp += "%0.2X" % s[j]      #   in case the index is 0, it should be transparent, so we leave it at 0
             if not (j+1)%4:
                 temp += "\",\t\t-- "+str(palette_offset+s[j-3])+", "+str(palette_offset+s[j-2])+", "+str(palette_offset+s[j-1])+", "+str(palette_offset+s[j]) + "\n"
                 file.write(temp)
