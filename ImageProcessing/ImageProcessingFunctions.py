@@ -46,6 +46,27 @@ def enlarge(img, x):
 
     return Enlarged
 
+def defEnemieSprites(dict, tiles):
+    #dict - dictionary to which to write
+    Tilecolors = []
+    x = 0
+    y = 0
+    br = 0
+    step = 14
+    while(y <8): 
+        while(x < 14): 
+            dict[br] = np.zeros((sprite_height,sprite_width,3), np.uint8)
+            for i in range(16):
+                for j in range(16):
+                    dict[br][i,j] = tiles[i+y*step+y*16,j+step*x+x*16]
+                    rememberColor(dict[br][i,j], Tilecolors);
+            br = br + 1
+            x = x+1
+        x = 0
+        y = y+1
+    return dict, Tilecolors
+
+
 #Saves sprites from the input image into seperate images inside the dictionary - designed to work with the image given, may be changed for different images (LinkSprites)
 def defLinkSprites(dict, img, Tilecolors):
 #def defSprites(dict, path):
@@ -92,16 +113,18 @@ def defLinkSprites(dict, img, Tilecolors):
 def defSprites(dict, path):
     #dict - dictionary to which to write
     tiles = cv2.imread(path)
+    draw("Image",tiles)
     Tilecolors = []
     x = 0
     y = 0
     br = 0
-    while(y <8): # 8 za map tilove
-        while(x < 18): # 18 za map tilove
+    while(y <3): # 8 za map tilove
+        while(x < 16): # 18 za map tilove
+            #print(br)
             dict[br] = np.zeros((sprite_height,sprite_width,3), np.uint8)
             for i in range(16):
                 for j in range(16):
-                    dict[br][i,j] = tiles[i+1+y+y*16,j+1+x*16+x]
+                    dict[br][i,j] = tiles[i+y*16,j+x*16]
                     rememberColor(dict[br][i,j], Tilecolors);
             br = br + 1
             x = x+1

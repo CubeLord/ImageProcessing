@@ -220,15 +220,81 @@ def TestItemSprites():
     
     return
 
+def TestTextSprites():
+    LetterImage = cv2.imread("C:\\Users\\Milorad Markovic\\Downloads\\NES - Zelda 1 Textures\\NES - The Legend of Zelda - Game Text.png");
+    IP.draw("LetterImage", LetterImage);
+    
+
+    NotBold = 0
+    if NotBold == 0:
+        xx = 20
+        x = 332
+    else:
+        x = 20
+        xx = 332
+    y = 20
+    yy = 500-16
+    CroppepedLetterImage = np.zeros((LetterImage.shape[0] - y- yy,LetterImage.shape[1]-x-xx,3), np.uint8)
+    #print("Width is: ", CroppepedLetterImage.shape[1])
+    #print("Hight is: ", CroppepedLetterImage.shape[0])
+
+
+    CroppepedLetterImage= LetterImage[y:LetterImage.shape[0]-yy,x:LetterImage.shape[1]-xx]
+    cv2.imwrite("CroppedLetterImage.png", CroppepedLetterImage)
+
+    IP.draw("CroppedLetterImage",CroppepedLetterImage)
+    letters = {}
+    LetterColors = []
+    letters,LetterColors = IP.defSprites(letters, "CroppedLetterImage.png")
+    IP.drawColors("LetterColors", LetterColors);
+    pprint.pprint(LetterColors)
+    IP.drawDict(letters)
+    
+    matrix = IP.FillMatrixColor(LetterColors, CroppepedLetterImage)
+    
+
+#fixing matrix to be as needed, each row is one sprite
+    Smatrix = []
+    for i in range(162):
+        Smatrix.append([])
+
+    for i in range(16*3):
+        for j in range(len(matrix[0])):
+            Smatrix[j//16 + 16*(i//16)].append(matrix[i][j])
+    
+    print("\nCORRECTED MATRIX\n")
+    for i in range(len(Smatrix)):
+        print(Smatrix[i])
+
+    genSprite = np.zeros((16,16,3), np.uint8)
+    for x in range(len(Smatrix)):  
+       for i in range(16):
+            for j in range(16):
+                genSprite[i][j] = LetterColors[Smatrix[x][i*16 + j]]
+       IP.draw("genSprite",IP.enlarge(genSprite, 10))
+
+
 def countDict(dict, l):
     br = 0
     for i in range(len(dict)):
         br += dict[i]
     return br
 
+def TestEnemieSprites():
+    rawEnemies = cv2.imread("C:\\Users\\Milorad Markovic\\Downloads\\NES - Zelda 1 Textures\\zelda-sprites-enemies-noalpha.png")
+    IP.draw("RawEnemies", IP.enlarge(rawEnemies, 3))
+    dict = {}
+    dict, EnemyColors = IP.defEnemieSprites(dict, rawEnemies)
+    IP.drawDict(dict)
+    return
+
+
 #TestTiles()
-TestLinkSprites()
+#TestLinkSprites()
 #TestItemSprites()
+#TestEnemieSprites()
+
+TestTextSprites()
 
 #TODO: MAKE A MATRIX FOR THE ORIGINAL MAP TILES, A MATRIX FOR THE COLORS, AND EXTRACT THE COLORS IN SOME WAY
 #EXTRACT THE DUNGEON TILES
