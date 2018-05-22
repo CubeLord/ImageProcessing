@@ -319,7 +319,7 @@ def FillMatrix(dict, mapImage):
     return
 
 #Checks each extracted pixel if it's value is in the dictionary, doesn't add them
-def FillMatrixColor(dict, img):
+def FillMatrixColor(colors, img):
     matrix = []
     for i in range(img.shape[0]):
         row = []
@@ -330,8 +330,8 @@ def FillMatrixColor(dict, img):
     #pprint.pprint(matrix)
     for i in range(img.shape[0]):
         for j in range(img.shape[1]):
-            for k in range(len(dict)):
-               if  img[i,j][0] == dict[k][0] and img[i,j][1] == dict[k][1] and img[i,j][2] == dict[k][2]:
+            for k in range(len(colors)):
+               if  img[i,j][0] == colors[k][0] and img[i,j][1] == colors[k][1] and img[i,j][2] == colors[k][2]:
                     matrix[i][j] = k
         #print row
         print(matrix[i])
