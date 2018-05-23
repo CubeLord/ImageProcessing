@@ -1,17 +1,62 @@
 from overworld import *
 from sprites import *
 
+def cave_frame_c():
+    cave = open("cave.txt", "w")
+    cave.write("unsigned short cave[11*16] = {")
+
+    for y in range(11):
+        for x in range(16):
+            if x in [0,15]:
+                value = "0x05BF, "      #19
+            elif y == 1:
+                if x == 1:
+                    value = "0x05FF, "  #20
+                elif x == 14: 
+                    value = "0x057F, "  #18
+            elif y == 9:
+                if x == 1:  
+                    value = "0x047F, "  #14
+                elif x == 14:
+                    value = "0x03FF, "  #12
+            elif y == 10:
+                if x in [7,8]:
+                    value = "0x017F, "  #2
+                else:
+                    value = "0x043F, "  #13
+            cave.write(value)
+        cave.write("\n\t\t\t\t\t\t")
+
+    cave.write("}\n")
+    cave.close()
+
 def character_sprites_to_c(sprites, file_name, offset, num_of_sprites, values):
     # values is the list of values of the sprites - used for letters and numbers
     output = open(file_name, "w")
     tiles_width = 16
+    palette_offset = 8
     # spriteHDLoffset represents the offset of the specific sprite in ram.vhd
     i_range = num_of_sprites
-
+    
+    output.write("CHAR_SPRITES = {")
     for i in range(i_range):
         spriteHDLoffset = offset + i*64  
-        output.write("0x%0.4X,\n" % spriteHDLoffset)
-            
+        output.write("0x%0.4X, " % spriteHDLoffset)
+    
+    output.write("}\n\n") 
+
+    output.write("/*        char sprites values for ram.vhd        */")
+    output.write("\nVHDL_CHAR_SPRITES = {")
+    for i in range(len(sprites)):
+        temp = "0x"
+        for j in range(len(sprites[i])):
+            temp += "%0.2X" % (palette_offset + sprites[i][j])
+            if not (j+1)%4:
+                temp += ", "
+                output.write(temp)
+                temp = "0x"
+
+    output.write("}\n\n") 
     output.close()
     
 
@@ -202,3 +247,5 @@ character_sprites_to_VHDL(link_sprites, "VHDL_Link_sprites.txt", 5172, 8)
 vals = ['0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z',',','!','\'','&','\.','\"','?','-']
 character_sprites_to_c(numbers_and_letters, "c_numbers_and_letters.txt", 1599, 44, vals) 
 
+#   generate Cave frame
+cave_frame_c()
