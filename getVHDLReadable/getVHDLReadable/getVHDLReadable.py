@@ -30,15 +30,14 @@ def cave_frame_c():
     cave.write("}\n")
     cave.close()
 
-def character_sprites_to_c(sprites, file_name, offset, num_of_sprites, values):
-    # values is the list of values of the sprites - used for letters and numbers
+def character_sprites_to_c(name, sprites, file_name, offset, num_of_sprites, palette_offset):
     output = open(file_name, "w")
     tiles_width = 16
-    palette_offset = 8
     # spriteHDLoffset represents the offset of the specific sprite in ram.vhd
     i_range = num_of_sprites
     
-    output.write("CHAR_SPRITES = {")
+    output.write(name)
+    output.write(" = {")
     for i in range(i_range):
         spriteHDLoffset = offset + i*64  
         output.write("0x%0.4X, " % spriteHDLoffset)
@@ -46,7 +45,7 @@ def character_sprites_to_c(sprites, file_name, offset, num_of_sprites, values):
     output.write("}\n\n") 
 
     output.write("/*        char sprites values for ram.vhd        */")
-    output.write("\nVHDL_CHAR_SPRITES = {")
+    output.write("\nVHDL_" + name + " = {")
     for i in range(len(sprites)):
         temp = "0x"
         for j in range(len(sprites[i])):
@@ -92,6 +91,7 @@ def overworld_sprites_to_VHDL(sprites):
     
     offset = 255
     VHDL = open("VHDL_overworld_sprites.txt", "w")
+    output = open("c_reload_overworld.txt", "w")
     m = 0
     for i in range(51):  #   len(sprites)//3-3 -> the last row isn't full
         VHDL.write("\n                --  sprite " + str(i) + "\n")
@@ -102,7 +102,11 @@ def overworld_sprites_to_VHDL(sprites):
             s = sprites[31]     #   add the grave to the end of the list
         for j in range(len(s)):
             temp += "0" + str(s[j])
+            if i > 20:
+                output.write("0" + str(s[j]))
             if not (j+1)%4:
+                if i > 20:
+                    output.write(", 0x")
                 temp += "\",\n"
                 VHDL.write(temp)
                 # move to next line
@@ -112,6 +116,7 @@ def overworld_sprites_to_VHDL(sprites):
             m += 12
         m += 1        
      
+    output.close()
     VHDL.close()
 
 
@@ -233,7 +238,7 @@ def screen_in_VHDL(overworld):
     file1.close()
 
 
-#simplifyMap(overworld)
+simplifyMap(overworld)
 #screen_in_VHDL(overworld)
 #overworld_to_c(overworld)
 
@@ -247,8 +252,8 @@ character_sprites_to_VHDL(link_sprites, "VHDL_Link_sprites.txt", 5172, 8)
 character_sprites_to_VHDL(enemies_sprites, "VHDL_enemies_sprites.txt", 5172-9*64, 35) 
 
 #   Numbers and letters 
-vals = ['0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z',',','!','\'','&','\.','\"','?','-']
-character_sprites_to_c(numbers_and_letters, "c_numbers_and_letters.txt", 1599, 44, vals) 
+# values = ['0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z',',','!','\'','&','\.','\"','?','-']
+character_sprites_to_c("CHAR_SPRITES", numbers_and_letters, "c_numbers_and_letters.txt", 1599, 44, 8) 
 
 #   generate Cave frame
 cave_frame_c()

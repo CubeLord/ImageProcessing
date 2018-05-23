@@ -4,7 +4,7 @@ if __name__ == "__main__":
     pf = open("VHDL_palette.txt", "w")
     offset = 35
     for c in palette:
-        pf.write("\t\t" + str(offset) + " => \"x00" + c[4::] + c[2:4] + c[0:2] + "\",\n")
+        pf.write("\t\t" + str(offset) + " => x\"00" + c[4::] + c[2:4] + c[0:2] + "\",\n")
         offset += 1
 
     pf.close()
