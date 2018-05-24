@@ -225,6 +225,18 @@ def copyImg(img):
             copy[i,j]=img[i,j]
     return copy
 
+#fills in the ireguar image to have dimensions 16x16
+def fillImage(img, fillcolor):
+    tmp = np.zeros((16, 16,3), np.uint8)
+    for i in range(tmp.shape[0]):
+        for j in range(tmp.shape[1]):
+            tmp[i,j] = fillcolor
+    
+    for i in range(img.shape[0]):
+        for j in range(img.shape[1]):
+            tmp[i,j] = img[i,j]
+    return tmp
+
 #fixes colors from the original TilePallete to the one used in the map image
 def fixColors(sprite, cantFind, Tilecolors, Mapcolors):
     #drawColors("Map colors", Mapcolors)
@@ -334,7 +346,7 @@ def FillMatrixColor(colors, img):
                if  img[i,j][0] == colors[k][0] and img[i,j][1] == colors[k][1] and img[i,j][2] == colors[k][2]:
                     matrix[i][j] = k
         #print row
-        print(matrix[i])
+        print("{}, ".format(matrix[i]))
     #pprint.pprint(matrix)
     printMatrix(matrix, img.shape[0])
     return matrix
