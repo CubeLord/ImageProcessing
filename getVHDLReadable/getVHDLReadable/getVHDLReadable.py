@@ -24,6 +24,8 @@ def cave_frame_c():
                     value = "0x017F, "  #2
                 else:
                     value = "0x043F, "  #13
+            else:
+                value = "0x017F, "      #2
             cave.write(value)
         cave.write("\n\t\t\t\t\t\t")
 
