@@ -254,7 +254,7 @@ simplifyMap(overworld)
 
 #   Numbers and letters 
 # values = ['0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z',',','!','\'','&','\.','\"','?','-']
-character_sprites_to_c("CHAR_SPRITES", numbers_and_letters, "c_numbers_and_letters.txt", 1599, 26, 8) 
+character_sprites_to_c("CHAR_SPRITES", numbers_and_letters[10::], "c_numbers_and_letters.txt", 1599, 10, 8) 
 
 #   generate Cave frame
 #cave_frame_c()
