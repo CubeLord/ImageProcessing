@@ -253,6 +253,17 @@ def screen_in_VHDL(overworld, offset):
             
     file1.close()
 
+def generate_minimap_VHDL(file_name, offset, color):
+    VHDL = open(file_name, "w")
+    for i in range(2):
+        VHDL.write("\n          -- minimap " + str(i))
+        for j in range(64):
+            VHDL.write("\n\t\t\t")
+            VHDL.write(str(offset))
+            VHDL.write(" => x\"" + "%0.2X" % color +  "%0.2X" % color +  "%0.2X" % color + "%0.2X" % color + "\",")
+            offset+=1
+
+    VHDL.close()
 
 #simplifyMap(overworld)
 #screen_in_VHDL(overworld, 6992)
@@ -277,3 +288,6 @@ def screen_in_VHDL(overworld, offset):
 
 #   generate Cave frame
 #cave_frame_c()
+
+#   generate mini map sprites for header
+generate_minimap_VHDL("VHDL_minimap.txt", 4863, 7)
