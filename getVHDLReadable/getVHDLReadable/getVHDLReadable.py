@@ -8,7 +8,7 @@ def cave_frame_c():
     for y in range(11):
         for x in range(16):
             value = "0x017F, "      #2
-            if x in [0,15]:
+            if x in [0,15] or y == 0:
                 value = "0x05BF, "      #19
             elif y == 1:
                 if x == 1:
