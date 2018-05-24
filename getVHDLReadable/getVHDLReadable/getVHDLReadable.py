@@ -80,6 +80,9 @@ def character_sprites_to_VHDL(sprites, file_name, offset, palette_offset, max_le
     
     VHDL = open(file_name, "w")
     for i in range(i_range):  
+        #   only for loading Link sprites - skip boomerang
+        if i in range(15,21) :
+            continue
         VHDL.write("\n                --  sprite " + str(i) + "\n")
         temp = "        " + str(offset) + " => x\""
         s = sprites[i] 
@@ -259,7 +262,7 @@ def screen_in_VHDL(overworld, offset):
 #overworld_sprites_to_VHDL(overworld_sprites)
 
 #   Link sprites
-#character_sprites_to_VHDL(link_sprites, "VHDL_Link_sprites.txt", 5648, 8, 21) 
+#character_sprites_to_VHDL(link_sprites, "VHDL_Link_sprites.txt", 5648, 8, 27) 
 
 #   enemies sprites
 #character_sprites_to_VHDL(enemies_sprites, "VHDL_enemies_sprites.txt", 5072, 35) 
