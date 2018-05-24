@@ -31,42 +31,55 @@ def cave_frame_c():
     cave.write("}\n")
     cave.close()
 
-def character_sprites_to_c(name, sprites, file_name, offset, num_of_sprites, palette_offset):
+def character_sprites_to_c(name, sprites, file_name, offset, values):
     output = open(file_name, "w")
     tiles_width = 16
     # spriteHDLoffset represents the offset of the specific sprite in ram.vhd
-    i_range = num_of_sprites
-    
-    output.write(name)
-    output.write(" = {")
+    i_range = len(sprites)    
+
     for i in range(i_range):
-        spriteHDLoffset = offset + i*64  
-        output.write("0x%0.4X, " % spriteHDLoffset)
-    
-    output.write("}\n\n") 
+        if values[i] in ['I','T','S','D','A','N','G','E','R','O','U','L','K','H','F', '\'', ',','.']: 
+            spriteHDLoffset = offset + i*64  
+            output.write("unsigned short CHAR_" + values[i] + " = 0x%0.4X; \n" % spriteHDLoffset)
 
-    output.write("/*        char sprites values for ram.vhd        */")
-    output.write("\nVHDL_" + name + " = {")
-    for i in range(len(sprites)):
-        temp = "0x"
-        for j in range(len(sprites[i])):
-            temp += "%0.2X" % (palette_offset + sprites[i][j])
-            if not (j+1)%4:
-                temp += ", "
-                output.write(temp)
-                temp = "0x"
-
-    output.write("}\n\n") 
     output.close()
     
-
-def character_sprites_to_VHDL(sprites, file_name, offset, palette_offset):
-    # indexed-colored sprites - each sub-list is one sprite // from FinalTilesColors Matrix.txt
+def letters_to_VHDL(sprites, file_name, offset, black, white, values):
     # offset = sprites offset in ram.vhdl
     # the goal is to get values in this format:   ---  255 => x"01020202" --- where   01 02 02 02    <- each block is an index for one color - we want to store them in sets of 4
 
     VHDL = open(file_name, "w")
-    for i in range(len(sprites)):  
+    for i in range(len(sprites)): 
+        if values[i] in ['I','T','S','D','A','N','G','E','R','O','U','L','K','H','F', '\'', ',', '.']: 
+            VHDL.write("\n                --  sprite -" + values[i] + "-\n")
+            temp = "        " + str(offset) + " => x\""
+            s = sprites[i] 
+            for j in range(len(s)):
+                if s[j]:
+                    temp += "%0.2X" % white
+                else:
+                    temp += "%0.2X" % black     
+                if not (j+1)%4:
+                    temp += "\",\n"
+                    VHDL.write(temp)
+                    offset += 1
+                    temp = "        " + str(offset) + " => x\""
+     
+    VHDL.close()
+
+
+
+def character_sprites_to_VHDL(sprites, file_name, offset, palette_offset, max_len = None):
+    # indexed-colored sprites - each sub-list is one sprite // from FinalTilesColors Matrix.txt
+    # offset = sprites offset in ram.vhdl
+    # the goal is to get values in this format:   ---  255 => x"01020202" --- where   01 02 02 02    <- each block is an index for one color - we want to store them in sets of 4
+    if(max_len):
+        i_range = max_len
+    else:
+        i_range = len(sprites) 
+    
+    VHDL = open(file_name, "w")
+    for i in range(i_range):  
         VHDL.write("\n                --  sprite " + str(i) + "\n")
         temp = "        " + str(offset) + " => x\""
         s = sprites[i] 
@@ -76,7 +89,7 @@ def character_sprites_to_VHDL(sprites, file_name, offset, palette_offset):
             else:
                 temp += "%0.2X" % s[j]      #   in case the index is 0, it should be transparent, so we leave it at 0
             if not (j+1)%4:
-                temp += "\",\t\t-- "+str(palette_offset+s[j-3])+", "+str(palette_offset+s[j-2])+", "+str(palette_offset+s[j-1])+", "+str(palette_offset+s[j]) + "\n"
+                temp += "\",\t\t-- colors: "+str(palette_offset+s[j-3])+", "+str(palette_offset+s[j-2])+", "+str(palette_offset+s[j-1])+", "+str(palette_offset+s[j]) + "\n"
                 VHDL.write(temp)
                 offset += 1
                 temp = "        " + str(offset) + " => x\""
@@ -195,12 +208,11 @@ def overworld_to_c(overworld):
     file2.close()
 
 
-def screen_in_VHDL(overworld):
+def screen_in_VHDL(overworld, offset):
     # this function generates the view of one screen
     # the frame loaded doesn't matter, because it's overwritten in battle_city.c
     # the point is to get the starting (base) addresses of the header and the frame itself in ram,vhdl
 
-    offset = 6900
     file1 = open("VHDL_screen.txt", "w")
     file1.write("\n                --  MAP\n")
 	
@@ -239,22 +251,23 @@ def screen_in_VHDL(overworld):
     file1.close()
 
 
-simplifyMap(overworld)
-#screen_in_VHDL(overworld)
+#simplifyMap(overworld)
+#screen_in_VHDL(overworld, 6992)
 #overworld_to_c(overworld)
 
 #   overworld sprites
 #overworld_sprites_to_VHDL(overworld_sprites)
 
 #   Link sprites
-#character_sprites_to_VHDL(link_sprites, "VHDL_Link_sprites.txt", 5172, 8) 
+#character_sprites_to_VHDL(link_sprites, "VHDL_Link_sprites.txt", 5172+92+6*64, 8, 21) 
 
 #   enemies sprites
-#character_sprites_to_VHDL(enemies_sprites, "VHDL_enemies_sprites.txt", 5172-9*64, 35) 
+character_sprites_to_VHDL(enemies_sprites, "VHDL_enemies_sprites.txt", 5172+92+6*64-9*64, 35) 
 
-#   Numbers and letters 
-# values = ['0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z',',','!','\'','&','\.','\"','?','-']
-character_sprites_to_c("CHAR_SPRITES", numbers_and_letters[10::], "c_numbers_and_letters.txt", 1599, 10, 8) 
+#   Numbers and letters     -   the functions read only certain letters becaouse there is not enough memory in ram.vhd 
+#values = ['0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z',',','!','\'','&','.','\"','?','-']
+#character_sprites_to_c("CHAR_SPRITES", numbers_and_letters, "c_numbers_and_letters.txt", 3519, values) 
+#letters_to_VHDL(numbers_and_letters, "VHDL_letters_sprites.txt", 3519, 2, 15, values) 
 
 #   generate Cave frame
 #cave_frame_c()
