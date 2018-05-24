@@ -244,17 +244,17 @@ simplifyMap(overworld)
 #overworld_to_c(overworld)
 
 #   overworld sprites
-overworld_sprites_to_VHDL(overworld_sprites)
+#overworld_sprites_to_VHDL(overworld_sprites)
 
 #   Link sprites
-character_sprites_to_VHDL(link_sprites, "VHDL_Link_sprites.txt", 5172, 8) 
+#character_sprites_to_VHDL(link_sprites, "VHDL_Link_sprites.txt", 5172, 8) 
 
 #   enemies sprites
-character_sprites_to_VHDL(enemies_sprites, "VHDL_enemies_sprites.txt", 5172-9*64, 35) 
+#character_sprites_to_VHDL(enemies_sprites, "VHDL_enemies_sprites.txt", 5172-9*64, 35) 
 
 #   Numbers and letters 
 # values = ['0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z',',','!','\'','&','\.','\"','?','-']
-character_sprites_to_c("CHAR_SPRITES", numbers_and_letters, "c_numbers_and_letters.txt", 1599, 44, 8) 
+character_sprites_to_c("CHAR_SPRITES", numbers_and_letters, "c_numbers_and_letters.txt", 1599, 26, 8) 
 
 #   generate Cave frame
-cave_frame_c()
+#cave_frame_c()
