@@ -181,6 +181,8 @@ def TestLinkSprites():
     LinkTiles = IP.createFinalTiles(dict)
     IP.draw("LinkTiles", IP.enlarge(LinkTiles, 5))
     cv2.imwrite("LinkColors.png", IP.enlarge(colorImg, 5))
+    cv2.imwrite("LinkTiles.png", IP.enlarge(LinkTiles, 5))
+
     matrix = IP.FillMatrixColor(Tilecolors, LinkTiles)
 
 #fixing matrix to be as needed, each row is one sprite
@@ -204,20 +206,73 @@ def TestLinkSprites():
        IP.draw("genSprite",IP.enlarge(genSprite, 10))
 
 def TestItemSprites():
-    items = cv2.imread("NES - The Legend of Zelda - TreasuresNEW.png")
+    items = cv2.imread("NES - The Legend of Zelda - TreasuresNEWER.png")
     items = items[0:items.shape[0]-208, 0:items.shape[1]]
     IP.draw("Items and Icons", IP.enlarge(items, 5))
     odict = {0:8, 1:8,  2:10, 3:16, 4:8}
-    dict = {0:8, 1:8, 2:8, 3:16, 4:8, 5:10, 6:14, 7:8, 8:8, 9:8, 10:8, 11:8, 12:8, 13:9, 14:7, 15:8, 16:10, 17:6, 18:9, 19:7}
+    dict = {0:8, 1:8, 2:8, 3:16, 4:8, 5:10, 6:14, 7:8, 8:8, 9:8, 10:8, 11:8, 12:8, 13:9, 14:7, 15:8, 16:10, 17:6, 18:9, 19:7, 20:11, 21:6, 22:15, 23:16, 24:8,25:8, 26:8, 27:8, 28:16}
     
     spritesDict = {}
-    #p = countDict(dict, 8)
-    #sprite = items[0:16, 0+p:14+p]
-    #IP.draw("sprite", IP.enlarge(sprite, 10))
-    for i in range(16*2):
-        spritesDict[i] = items[0:16, countDict(dict, i):dict[i]]
-    #IP.drawDict(spritesDict)
     
+    p = countDict(dict, len(dict))
+    sprite = items[0:16, 0+p:16+p]
+    #IP.draw("sprite", IP.enlarge(sprite, 10))
+
+    for i in range(len(dict)):
+        spritesDict[i] = IP.fillImage(IP.copyImg(items[0:16, countDict(dict, i):dict[i]+countDict(dict, i)]), np.array([192, 192, 192]))
+
+
+        #print(spritesDict[i].shape[0])
+        #print(spritesDict[i].shape[1])
+
+        #IP.draw("ime",IP.enlarge(spritesDict[i], 10))
+
+    #for i in range(len(dict)):
+    #    IP.draw("img", IP.enlarge(spritesDict[i], 10))
+
+    
+#removing sprites we don't have space for 
+    newdict = {}
+    newdict[0] = IP.fillImage(spritesDict[0][:8,:], np.array([192, 192, 192]))
+    newdict[1] = spritesDict[1]
+    newdict[2] = spritesDict[2]
+    
+    Items = np.zeros((16, 16*3,3), np.uint8)
+    
+
+    for i in range(Items.shape[0]):
+        for j in range(Items.shape[1]):
+            Items[i,j]=newdict[(i//16)*3 + j//16][(i%16),j%16]
+    IP.draw("Items", IP.enlarge(Items, 5))
+    cv2.imwrite("Hearts.png", Items)
+
+    ItemColors = []
+    ItemColors = IP.getColors(Items)
+    for i in range(len(ItemColors)):
+        print(rgb2hex(ItemColors[i][0], ItemColors[i][1], ItemColors[i][2]))
+
+    matrix = IP.FillMatrixColor(ItemColors, Items)
+
+
+    Smatrix = []
+    for i in range(3):
+        Smatrix.append([])
+
+    for i in range(16):
+        for j in range(len(matrix[0])):
+            Smatrix[j//16 + 16*(i//16)].append(matrix[i][j])
+    
+    print("\nCORRECTED MATRIX\n")
+    for i in range(len(Smatrix)):
+        print("{}, \n".format(Smatrix[i]))
+    
+    genSprite = np.zeros((16,16,3), np.uint8)
+    for x in range(len(Smatrix)):  
+       for i in range(16):
+            for j in range(16):
+                genSprite[i][j] = ItemColors[Smatrix[x][i*16 + j]]
+       IP.draw("genSprite",IP.enlarge(genSprite, 10))
+
     return
 
 def TestTextSprites():
@@ -281,15 +336,14 @@ def TestTextSprites():
                 genSprite[i][j] = LetterColors[Smatrix[x][i*16 + j]]
        IP.draw("genSprite",IP.enlarge(genSprite, 10))
 
-
 def countDict(dict, l):
     br = 0
-    for i in range(len(dict)):
+    for i in range(l):
         br += dict[i]
     return br
 
 def rgb2hex(r,g,b):
-    hex = "#{:02x}{:02x}{:02x}".format(r,g,b)
+    hex = "0x{:02x}{:02x}{:02x}".format(r,g,b)
     return hex
 
 def TestEnemieSprites():
@@ -330,16 +384,25 @@ def TestEnemieSprites():
         print(rgb2hex(EnemyColors[i][2], EnemyColors[i][1], EnemyColors[i][0]))
     return
 
-
-
-
-
 #TestTiles()
 #TestLinkSprites()
-#TestItemSprites()
-TestEnemieSprites()
+TestItemSprites()
+#TestEnemieSprites()
 #TestTextSprites()
 
 #TODO: MAKE A MATRIX FOR THE ORIGINAL MAP TILES, A MATRIX FOR THE COLORS, AND EXTRACT THE COLORS IN SOME WAY
 #EXTRACT THE DUNGEON TILES
 #EXTRACT COLORS AND MATRIX FOR LINK SPRITES
+
+
+#import matplotlib.pyplot as mp
+#import math
+
+#l = []
+#d = []
+#for i in range(100):
+#    d.append(i)
+#    l.append(math.sin( 1/10*i));
+
+#mp.bar(d, l, 0.1, 1, align = 'edge')
+#mp.show()
