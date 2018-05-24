@@ -259,10 +259,13 @@ def screen_in_VHDL(overworld, offset):
 #overworld_sprites_to_VHDL(overworld_sprites)
 
 #   Link sprites
-#character_sprites_to_VHDL(link_sprites, "VHDL_Link_sprites.txt", 5172+92+6*64, 8, 21) 
+#character_sprites_to_VHDL(link_sprites, "VHDL_Link_sprites.txt", 5648, 8, 21) 
 
 #   enemies sprites
-character_sprites_to_VHDL(enemies_sprites, "VHDL_enemies_sprites.txt", 5172+92+6*64-9*64, 35) 
+#character_sprites_to_VHDL(enemies_sprites, "VHDL_enemies_sprites.txt", 5072, 35) 
+
+#  heart sprites
+#character_sprites_to_VHDL(hearts, "VHDL_heart_sprites.txt", 4671, 57) 
 
 #   Numbers and letters     -   the functions read only certain letters becaouse there is not enough memory in ram.vhd 
 #values = ['0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z',',','!','\'','&','.','\"','?','-']
