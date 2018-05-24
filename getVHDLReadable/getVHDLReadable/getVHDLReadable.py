@@ -7,6 +7,7 @@ def cave_frame_c():
 
     for y in range(11):
         for x in range(16):
+            value = "0x017F, "      #2
             if x in [0,15]:
                 value = "0x05BF, "      #19
             elif y == 1:
@@ -24,8 +25,6 @@ def cave_frame_c():
                     value = "0x017F, "  #2
                 else:
                     value = "0x043F, "  #13
-            else:
-                value = "0x017F, "      #2
             cave.write(value)
         cave.write("\n\t\t\t\t\t\t")
 
