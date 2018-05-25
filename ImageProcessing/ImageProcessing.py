@@ -227,8 +227,13 @@ def TestItemSprites():
 
         #IP.draw("ime",IP.enlarge(spritesDict[i], 10))
 
-    #for i in range(len(dict)):
-    #    IP.draw("img", IP.enlarge(spritesDict[i], 10))
+    extraSprites = {}
+    extraSprites[0] = spritesDict[7]
+    extraSprites[1] = spritesDict[15]
+
+    for i in range(len(extraSprites)):
+        IP.draw("img", IP.enlarge(extraSprites[i], 10))
+
 
     
 #removing sprites we don't have space for 
@@ -237,6 +242,7 @@ def TestItemSprites():
     newdict[1] = spritesDict[1]
     newdict[2] = spritesDict[2]
     
+
     Items = np.zeros((16, 16*3,3), np.uint8)
     
 
@@ -245,6 +251,8 @@ def TestItemSprites():
             Items[i,j]=newdict[(i//16)*3 + j//16][(i%16),j%16]
     IP.draw("Items", IP.enlarge(Items, 5))
     cv2.imwrite("Hearts.png", Items)
+
+    
 
     ItemColors = []
     ItemColors = IP.getColors(Items)
@@ -266,12 +274,45 @@ def TestItemSprites():
     for i in range(len(Smatrix)):
         print("{}, \n".format(Smatrix[i]))
     
-    genSprite = np.zeros((16,16,3), np.uint8)
-    for x in range(len(Smatrix)):  
-       for i in range(16):
-            for j in range(16):
-                genSprite[i][j] = ItemColors[Smatrix[x][i*16 + j]]
-       IP.draw("genSprite",IP.enlarge(genSprite, 10))
+    #genSprite = np.zeros((16,16,3), np.uint8)
+    #for x in range(len(Smatrix)):  
+    #   for i in range(16):
+    #        for j in range(16):
+    #            genSprite[i][j] = ItemColors[Smatrix[x][i*16 + j]]
+    #   IP.draw("genSprite",IP.enlarge(genSprite, 10))
+
+
+    Pickups = np.zeros((16, 16*2, 3), np.uint8)
+
+    for i in range(Pickups.shape[0]):
+        for j in range(Pickups.shape[1]):
+            Pickups[i,j]=extraSprites[(i//16)*3 + j//16][(i%16),j%16]
+    IP.draw("Pickups", IP.enlarge(Pickups, 5))
+    cv2.imwrite("Pickups.png", Pickups)
+    
+    print("\nPICKUPS\n")
+
+    PickupColors = []
+    PickupColors= IP.getColors(Pickups)
+    for i in range(len(PickupColors)):
+        print(rgb2hex(PickupColors[i][0], PickupColors[i][1], PickupColors[i][2]))
+
+    matrix = IP.FillMatrixColor(PickupColors, Pickups)
+
+
+    Smatrix = []
+    for i in range(3):
+        Smatrix.append([])
+
+    for i in range(16):
+        for j in range(len(matrix[0])):
+            Smatrix[j//16 + 16*(i//16)].append(matrix[i][j])
+    
+    print("\nCORRECTED MATRIX\n")
+    for i in range(len(Smatrix)):
+        print("{}, \n".format(Smatrix[i]))
+    
+
 
     return
 
@@ -384,11 +425,17 @@ def TestEnemieSprites():
         print(rgb2hex(EnemyColors[i][2], EnemyColors[i][1], EnemyColors[i][0]))
     return
 
+def TestNPCSprites():
+
+    print("nesto")
+    return
+
 #TestTiles()
 #TestLinkSprites()
 TestItemSprites()
 #TestEnemieSprites()
 #TestTextSprites()
+#TestNPCSprites()
 
 #TODO: MAKE A MATRIX FOR THE ORIGINAL MAP TILES, A MATRIX FOR THE COLORS, AND EXTRACT THE COLORS IN SOME WAY
 #EXTRACT THE DUNGEON TILES
