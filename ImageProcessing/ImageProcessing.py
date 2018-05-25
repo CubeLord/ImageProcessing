@@ -427,15 +427,43 @@ def TestEnemieSprites():
 
 def TestNPCSprites():
 
-    print("nesto")
+    npcs = cv2.imread("NES - The Legend of Zelda - NPCs.png")
+    IP.draw("NPCS Original", IP.enlarge(npcs, 5))
+
+    npcs = npcs[0+4:16+4, 13:13+16]
+    IP.draw("NPCS Grandpa", IP.enlarge(npcs, 10))
+    
+    NPCSColors= []
+    NPCSColors= IP.getColors(npcs)
+    for i in range(len(NPCSColors)):
+        print(rgb2hex(NPCSColors[i][0], NPCSColors[i][1], NPCSColors[i][2]))
+
+    matrix = IP.FillMatrixColor(NPCSColors, npcs)
+
+
+    Smatrix = []
+    for i in range(3):
+        Smatrix.append([])
+
+    for i in range(16):
+        for j in range(len(matrix[0])):
+            Smatrix[j//16 + 16*(i//16)].append(matrix[i][j])
+    
+    print("\nCORRECTED MATRIX\n")
+    for i in range(len(Smatrix)):
+        print("{}, \n".format(Smatrix[i]))
+    
+
+
+
     return
 
 #TestTiles()
 #TestLinkSprites()
-TestItemSprites()
+#TestItemSprites()
 #TestEnemieSprites()
 #TestTextSprites()
-#TestNPCSprites()
+TestNPCSprites()
 
 #TODO: MAKE A MATRIX FOR THE ORIGINAL MAP TILES, A MATRIX FOR THE COLORS, AND EXTRACT THE COLORS IN SOME WAY
 #EXTRACT THE DUNGEON TILES
