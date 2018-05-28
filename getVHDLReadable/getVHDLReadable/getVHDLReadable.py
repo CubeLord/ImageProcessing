@@ -253,6 +253,7 @@ def screen_in_VHDL(overworld, offset):
             
     file1.close()
 
+
 def generate_minimap_VHDL(file_name, offset, color):
     VHDL = open(file_name, "w")
     for i in range(2):
@@ -262,6 +263,69 @@ def generate_minimap_VHDL(file_name, offset, color):
             VHDL.write(str(offset))
             VHDL.write(" => x\"" + "%0.2X" % color +  "%0.2X" % color +  "%0.2X" % color + "%0.2X" % color + "\",")
             offset+=1
+
+    VHDL.close()
+
+
+def grandpa_to_VHDL(file_name, offset, sprite):
+    # there is a special function for adding grandpa to VHDL because we're mapping his colors to already existing colors which are in different pallets, so it's not enough to just set the palette offset, because grandpa's palette is not in one place sequentially
+
+    VHDL = open(file_name, "w")
+    
+    VHDL.write("\n          -- GRANDPA ")
+    for i in range(len(sprite)):
+        if i%4 == 0:
+            VHDL.write("\n\t\t\t\t")
+            VHDL.write(str(offset) + " => x\"")
+
+        if sprite[i] == 1:    # orange
+            color = 60
+        elif sprite[i] == 2:    # white
+            color = 15
+        elif sprite[i] == 4:    # red
+            color = 61
+        else:                   # black
+            color = 2
+
+        VHDL.write("%0.2X" % color)        
+
+        if (i+1)%4 == 0:
+            VHDL.write("\",")
+            offset+=1
+
+    VHDL.close()
+
+
+def pickups_to_VHDL(file_name, offset, sprites, values):
+    # there is a special function for adding pickups to VHDL because we're mapping the colors to already existing colors which are in different pallets, so it's not enough to just set the palette offset, because the pickups palette is not in one place sequentially
+
+    VHDL = open(file_name, "w")
+    
+    for s in range(len(sprites)):
+        VHDL.write("\n          -- " + values[s])
+        for i in range(len(sprites[s])):
+            sprite = sprites[s]
+
+            if i%4 == 0:
+                VHDL.write("\n\t\t")
+                VHDL.write(str(offset) + " => x\"")
+
+            if sprite[i] == 1:      # white
+                color = 15
+            elif sprite[i] == 2:    # orange
+                color = 60
+            elif sprite[i] == 3:    # bomb blue
+                color = 14   
+            elif sprite[i] == 4:    # light pastel blue/purple
+                color = 46
+            else:                   # black
+                color = 2
+
+            VHDL.write("%0.2X" % color)        
+
+            if (i+1)%4 == 0:
+                VHDL.write("\",")
+                offset+=1
 
     VHDL.close()
 
@@ -290,4 +354,10 @@ def generate_minimap_VHDL(file_name, offset, color):
 #cave_frame_c()
 
 #   generate mini map sprites for header
-generate_minimap_VHDL("VHDL_minimap.txt", 4863, 7)
+#generate_minimap_VHDL("VHDL_minimap.txt", 4863, 7)
+
+#   grandpa
+#grandpa_to_VHDL("VHDL_grandpa.txt", 4991, grandpa)
+
+#   pickups
+#pickups_to_VHDL("VHDL_pickups.txt", 64, pickups, ["RUPEE SPRITE", "BOMB SPRITE"])
